@@ -1,0 +1,51 @@
+{
+  "name": "foodrecalls_dev",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "NODE_ENV=development nodemon src/app.js --exec babel-node",
+    "serve": "NODE_ENV=production node dist/app.js",
+    "clean": "rimraf dist/*",
+    "build": "npm run clean && babel src -d dist",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint -c .eslintrc src"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@babel/polyfill": "^7.10.4",
+    "@graphql-modules/core": "^0.7.17",
+    "@graphql-modules/di": "^0.7.17",
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dataloader": "^2.0.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "graphql-import-node": "0.0.4",
+    "graphql-tag-pluck": "^0.8.7",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.1.0",
+    "pg": "^8.3.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.3",
+    "serialize-error": "^7.0.1",
+    "uuid": "^8.3.0",
+    "uuid-validate": "0.0.3",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/register": "^7.10.5",
+    "apollo-server-express": "^2.16.1",
+    "body-parser": "^1.19.0",
+    "graphql": "^15.3.0",
+    "graphql-tools": "^6.0.15",
+    "lodash": "^4.17.19",
+    "nodemon": "^2.0.4"
+  }
+}
