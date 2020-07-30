@@ -1,6 +1,9 @@
+import '@babel/polyfill';
+import 'graphql-import-node';
+
 // HTTP SERVER
 import express from 'express';
-import cors from 'cors';
+import { cors } from './express';
 
 const app = express();
 
@@ -17,12 +20,7 @@ const listen = () => {
   });
 };
 
-app.use(
-  cors({
-    origin: '*', // Be sure to switch to production domain
-    optionsSuccessStatus: 200,
-  })
-);
+app.use(cors);
 
 // Endpoint to check if the API is running
 app.get('/api/status', (req, res) => {
