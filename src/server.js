@@ -1,34 +1,33 @@
 import '@babel/polyfill';
 import 'graphql-import-node';
+import blocked from 'blocked';
+import express from 'express';
 
 // HTTP SERVER
-import express from 'express';
-import { cors } from './express';
+import { cors, healthCheck, version } from './express';
+import RequestContext from './RequestContext';
 
-const app = express();
+// Creates the API server
+const server = async () => {
+  // Instantiate express app
+  const app = express();
 
-const setPort = (port = 5000) => {
-  app.set('port', parseInt(port, 10));
+  // Get heath check to make sure server is online
+  app.get('/api/_health', healthCheck);
+
+  // Set up the request context
+  app.use(RequestContext.setup);
+
+  // Get the current API version
+  app.get('/api/_version', version);
+
+  // Set up the CORS of the API
+  app.use(cors);
+
+  const port = process.env.API_PORT || 5000;
+
+  // Begin listening to server requests
+  app.listen(port);
 };
 
-const listen = () => {
-  const port = app.get('port') || 5000;
-  app.listen(port, () => {
-    console.log(
-      `The server is running and listening at http://localhost:${port}`
-    );
-  });
-};
-
-app.use(cors);
-
-// Endpoint to check if the API is running
-app.get('/api/status', (req, res) => {
-  res.send({ status: 'ok' });
-});
-
-export default {
-  getApp: () => app,
-  setPort,
-  listen,
-};
+export default server;

@@ -1,5 +1,7 @@
 import server from './server';
 
-server.listen();
+// Create the app to return the server setup
+const app = async () => server();
 
-export default server;
+// Init the app
+app();
