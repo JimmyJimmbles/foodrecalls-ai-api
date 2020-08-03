@@ -1,3 +1,4 @@
+// Vendors
 import expressCors from 'cors';
 
 const cors = expressCors({

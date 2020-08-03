@@ -1,15 +1,17 @@
+// Vendors
 import '@babel/polyfill';
 import 'graphql-import-node';
 import blocked from 'blocked';
 import express from 'express';
 
-// HTTP SERVER
+// Components
 import { cors, healthCheck, requestLogger, version } from './express';
 import logger from './logger';
 import RequestContext from './RequestContext';
 
 // Creates the API server
 const server = async () => {
+  // Check if the event loop is blocked, and log a warning message
   blocked((ms) => logger.warn(`event-loop-blocked: ${ms}ms`));
 
   // Instantiate express app

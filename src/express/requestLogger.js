@@ -1,5 +1,7 @@
+// Vendors
 import convertHrtime from 'convert-hrtime';
 
+// Components
 import logger from '../logger';
 import RequestContext from '../RequestContext';
 
@@ -14,8 +16,8 @@ const requestLogger = (req, res, next) => {
 
     const context = RequestContext.current();
     const startTime = context && context.startTime;
-
     const elapsed = convertHrtime(process.hrtime(startTime)).milliseconds;
+
     logger.info(
       `express-request-end: ${requestStr} ${res.statusCode} [${elapsed}ms]`
     );
