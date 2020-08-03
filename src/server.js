@@ -4,11 +4,14 @@ import blocked from 'blocked';
 import express from 'express';
 
 // HTTP SERVER
-import { cors, healthCheck, version } from './express';
+import { cors, healthCheck, requestLogger, version } from './express';
+import logger from './logger';
 import RequestContext from './RequestContext';
 
 // Creates the API server
 const server = async () => {
+  blocked((ms) => logger.warn(`event-loop-blocked: ${ms}ms`));
+
   // Instantiate express app
   const app = express();
 
@@ -17,6 +20,9 @@ const server = async () => {
 
   // Set up the request context
   app.use(RequestContext.setup);
+
+  // Set up the Request Logger
+  app.use(requestLogger);
 
   // Get the current API version
   app.get('/api/_version', version);
@@ -27,7 +33,9 @@ const server = async () => {
   const port = process.env.API_PORT || 5000;
 
   // Begin listening to server requests
-  app.listen(port);
+  app.listen(port, () =>
+    logger.info(`server started on http://localhost:${port}`)
+  );
 };
 
 export default server;
