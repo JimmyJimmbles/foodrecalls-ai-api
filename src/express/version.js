@@ -1,3 +1,4 @@
+// Vendors
 import path from 'path';
 
 const version = (req, res) => {
