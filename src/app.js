@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 // Components
 import server from './server';
 
