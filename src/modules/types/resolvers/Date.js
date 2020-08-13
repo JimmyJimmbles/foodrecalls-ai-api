@@ -20,4 +20,4 @@ const Date = new GraphQLScalarType({
   },
 });
 
-export default Count;
+export default Date;

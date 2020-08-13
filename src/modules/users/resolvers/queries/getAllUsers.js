@@ -1,4 +1,4 @@
-import { GET_ALL_USERS } from '../providers';
+import { GET_ALL_USERS } from '../../providers';
 
 /**
  * Query of all the Users.

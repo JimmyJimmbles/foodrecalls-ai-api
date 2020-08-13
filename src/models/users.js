@@ -16,6 +16,15 @@ export default (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
       },
+      password: {
+        type: DataTypes.STRING,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+      },
     },
     {}
   );

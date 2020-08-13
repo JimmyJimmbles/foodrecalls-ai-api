@@ -1,4 +1,4 @@
-import { GET_USER_BY_ID } from '../providers';
+import { GET_USER_BY_ID } from '../../providers';
 
 /**
  * Query User
