@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "foodrecalls-ai-api",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "review": {
+    "username": "root",
+    "password": null,
+    "database": "database_review",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}

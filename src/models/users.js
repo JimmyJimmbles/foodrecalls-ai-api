@@ -1,3 +1,4 @@
+// Users model
 export default (sequelize, DataTypes) => {
   const users = sequelize.define(
     'users',
@@ -6,16 +7,13 @@ export default (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.UUID,
       },
-      first_name: {
+      firstName: {
         type: DataTypes.STRING,
       },
-      last_name: {
+      lastName: {
         type: DataTypes.STRING,
       },
       email: {
-        type: DataTypes.STRING,
-      },
-      password: {
         type: DataTypes.STRING,
       },
     },

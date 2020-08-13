@@ -1,21 +1,23 @@
+require('dotenv').config();
+
 // Vendors
 import { highlight } from 'cli-highlight';
-import { readdirSync } from 'fs';
-import { basename as _basename, join } from 'path';
-import Sequelize, { DataTypes } from 'sequelize';
+import fs from 'fs';
+import path from 'path';
+import Sequelize from 'sequelize';
 
 import logger from '../logger';
 
-const basename = _basename(__filename);
+const basename = path.basename(__filename);
 const db = {};
 
 const sequelize = new Sequelize(
-  process.env.DB_HOST,
   process.env.DB_DATABASE,
   process.env.DB_USERNAME,
   process.env.DB_PASSWORD,
-  process.env.DB_DIALECT,
   {
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
     benchmark: true,
     define: { underscored: true },
     logging: (log, elapsed) => {
@@ -25,14 +27,13 @@ const sequelize = new Sequelize(
   }
 );
 
-readdirSync(__dirname)
-  .filter((file) => {
-    return (
+fs.readdirSync(__dirname)
+  .filter(
+    (file) =>
       file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
-    );
-  })
+  )
   .forEach((file) => {
-    const model = require(join(__dirname, file))(sequelize, DataTypes);
+    const model = sequelize.import(path.join(__dirname, file));
     db[model.name] = model;
   });
 

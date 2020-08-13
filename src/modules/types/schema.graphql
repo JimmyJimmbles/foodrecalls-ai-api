@@ -1,0 +1,4 @@
+scalar Count
+scalar NonemptyString
+scalar Uuid
+scalar Date

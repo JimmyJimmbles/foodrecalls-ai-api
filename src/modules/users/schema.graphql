@@ -1,9 +1,43 @@
 type Query {
-  getUser(id: ID!): User!
+  getAllUsers(
+    limit: Count!
+    offset: Count!
+    sortBy: UserSortBy!
+    sortDirection: String!
+  ): UserPaginatedResuslts!
+
+  getUser(id: Uuid!): User!
+}
+
+enum UserSortBy {
+  id
+  firstName
+  lastName
+}
+
+type UserPaginatedResuslts {
+  count: Count!
+  records: [User!]!
 }
 
 type User {
   id: ID!
-  firstName: String!
-  email: String!
+  firstName: NonemptyString!
+  lastName: NonemptyString!
+  email: NonemptyString!
+  createdAt: Date!
+  updatedAt: Date!
 }
+
+input UserInput {
+  firstName: NonemptyString!
+  lastName: NonemptyString!
+  email: NonemptyString!
+}
+
+type Mutation {
+  createUser(input: UserInput!): User!
+  updateUser(id: Uuid!, updatedAt: Date!, input: UserInput!): User!
+}
+
+# TODO: Make the createUser and updateUser resolvers and functions
