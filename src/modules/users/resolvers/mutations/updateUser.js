@@ -1,6 +1,8 @@
 // Importing data models
 import { User } from '../../../../models';
 
+import { UserSafeError } from '../../../../errors';
+
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -14,11 +16,15 @@ const updateUser = async (root, { id, updatedAt, input }) => {
     password,
   };
 
-  return await User.update(updatedUser, { where: { id: id } }).then((res) => {
-    if (res) {
-      return updatedUser;
-    }
-  });
+  return await User.update(updatedUser, { where: { id: id } })
+    .then((res) => {
+      if (res) {
+        return updatedUser;
+      }
+    })
+    .catch((err) => {
+      throw new UserSafeError(err);
+    });
 };
 
 export default updateUser;

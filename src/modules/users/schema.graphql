@@ -21,7 +21,7 @@ type UserPaginatedResuslts {
 }
 
 type User {
-  id: ID!
+  uuid: ID!
   firstName: NonemptyString!
   lastName: NonemptyString!
   email: NonemptyString!
@@ -39,5 +39,5 @@ input UserInput {
 
 type Mutation {
   createUser(input: UserInput!): User!
-  updateUser(id: Uuid!, input: UserInput!): User!
+  updateUser(uuid: Uuid!, input: UserInput!): User!
 }
