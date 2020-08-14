@@ -1,10 +1,13 @@
-// Users model
+// Define sequelize User model
 export default (sequelize, DataTypes) => {
-  const users = sequelize.define(
+  const User = sequelize.define(
     'users',
     {
       id: {
         primaryKey: true,
+        type: DataTypes.INT,
+      },
+      uuid: {
         type: DataTypes.UUID,
       },
       firstName: {
@@ -29,9 +32,9 @@ export default (sequelize, DataTypes) => {
     {}
   );
 
-  users.associate = () => {
+  User.associate = () => {
     // associations can be defined here
   };
 
-  return users;
+  return User;
 };

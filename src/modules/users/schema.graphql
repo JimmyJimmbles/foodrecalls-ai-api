@@ -26,8 +26,8 @@ type User {
   lastName: NonemptyString!
   email: NonemptyString!
   password: NonemptyString!
-  createdAt: Date!
-  updatedAt: Date!
+  createdAt: NonemptyString!
+  updatedAt: NonemptyString!
 }
 
 input UserInput {
@@ -39,7 +39,5 @@ input UserInput {
 
 type Mutation {
   createUser(input: UserInput!): User!
-  updateUser(id: Uuid!, updatedAt: Date!, input: UserInput!): User!
+  updateUser(id: Uuid!, input: UserInput!): User!
 }
-
-# TODO: Make the createUser and updateUser resolvers and functions
