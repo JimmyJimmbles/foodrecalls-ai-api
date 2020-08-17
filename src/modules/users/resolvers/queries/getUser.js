@@ -8,7 +8,7 @@ import { GET_USER_BY_ID } from '../../providers';
  * @param {object} injector
  */
 
-const getUser = (root, { id }, { injector }) =>
+const getUser = async (root, { id }, { injector }) =>
   injector.get(GET_USER_BY_ID).load(id);
 
 export default getUser;

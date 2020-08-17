@@ -1,17 +1,16 @@
 // Importing data models
-import { User } from '../../../../models';
+import db from '../../../../models';
+import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt';
 
-const { v4: uuidv4 } = require('uuid');
-const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
 
 const createUser = async (root, { input }) => {
-  const id = uuidv4();
-  const { firstName, lastName, email } = input;
+  const uuid = uuidv4();
   const password = bcrypt.hashSync(input.password, salt);
 
-  return User.create({ id, firstName, lastName, email, password });
+  return db.users.create({ uuid, ...input, password });
 };
 
 export default createUser;

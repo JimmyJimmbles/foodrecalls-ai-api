@@ -6,7 +6,7 @@ type Query {
     sortDirection: String!
   ): UserPaginatedResuslts!
 
-  getUser(id: Uuid!): User!
+  getUser(id: ID!): User!
 }
 
 enum UserSortBy {
@@ -39,5 +39,5 @@ input UserInput {
 
 type Mutation {
   createUser(input: UserInput!): User!
-  updateUser(uuid: Uuid!, input: UserInput!): User!
+  updateUser(uuid: ID!, input: UserInput!): User!
 }

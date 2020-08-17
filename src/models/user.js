@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const salt = bcrypt.genSaltSync(saltRounds);
@@ -9,27 +10,17 @@ export default (sequelize, DataTypes) => {
     {
       id: {
         primaryKey: true,
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         autoIncrement: true,
-        primaryKey: true,
       },
       uuid: {
-        type: DataTypes.UUID,
-        unique: true,
-        allowNull: false,
-        validate: {
-          isUUID: {
-            msg: 'Not a valid UUID.',
-          },
-        },
+        type: DataTypes.UUIDV4,
       },
       firstName: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       lastName: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
@@ -42,13 +33,14 @@ export default (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       createdAt: {
         type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
       },
     },
     {
@@ -67,7 +59,7 @@ export default (sequelize, DataTypes) => {
     // associations can be defined here
   };
 
-  User.sync({ force: true });
+  // User.sync({ force: true });
 
   return User;
 };

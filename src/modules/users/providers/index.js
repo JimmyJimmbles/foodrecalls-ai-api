@@ -5,7 +5,10 @@ import {
   collectionByQuery,
   paginatedCollection,
 } from '../../../dataloaders';
-import { User } from '../../../models';
+
+// Models
+import db from '../../../models';
+const User = db.users;
 
 export const GET_ALL_USERS = Symbol('GET_ALL_USERS');
 export const GET_USER_BY_ID = Symbol('GET_USER_BY_ID');
@@ -15,17 +18,17 @@ const providers = [
   {
     provide: GET_ALL_USERS,
     scope: ProviderScope.Session,
-    useFactory: () => paginatedCollection(User),
+    useFactory: () => paginatedCollection(db.users),
   },
   {
     provide: GET_USER_BY_ID,
     scope: ProviderScope.Session,
-    useFactory: () => modelById(User),
+    useFactory: () => modelById(db.users),
   },
   {
     provide: GET_USERS_BY_QUERY,
     scope: ProviderScope.Session,
-    useFactory: () => collectionByQuery(User),
+    useFactory: () => collectionByQuery(db.users),
   },
 ];
 
