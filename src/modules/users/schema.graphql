@@ -26,6 +26,7 @@ type User {
   lastName: NonemptyString!
   email: NonemptyString!
   password: NonemptyString!
+  role: NonemptyString!
   createdAt: NonemptyString!
   updatedAt: NonemptyString!
 }
@@ -35,9 +36,25 @@ input UserInput {
   lastName: NonemptyString!
   email: NonemptyString!
   password: NonemptyString!
+  role: NonemptyString!
+}
+
+type AuthPayLoad {
+  token: NonemptyString!
+}
+
+input UserLoginInput {
+  email: NonemptyString!
+  password: NonemptyString!
+}
+
+type UserAuthResuslts {
+  user: User!
+  token: AuthPayLoad!
 }
 
 type Mutation {
-  createUser(input: UserInput!): User!
-  updateUser(uuid: ID!, input: UserInput!): User!
+  createUser(input: UserInput!): UserAuthResuslts!
+  loginUser(input: UserLoginInput!): UserAuthResuslts!
+  updateUser(uuid: Uuid!, input: UserInput!): UserAuthResuslts!
 }

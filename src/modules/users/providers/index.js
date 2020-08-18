@@ -8,7 +8,7 @@ import {
 
 // Models
 import db from '../../../models';
-const User = db.users;
+// const User = db.users;
 
 export const GET_ALL_USERS = Symbol('GET_ALL_USERS');
 export const GET_USER_BY_ID = Symbol('GET_USER_BY_ID');

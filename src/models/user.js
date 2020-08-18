@@ -15,12 +15,15 @@ export default (sequelize, DataTypes) => {
       },
       uuid: {
         type: DataTypes.UUIDV4,
+        allowNull: false,
       },
       firstName: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       lastName: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
@@ -30,30 +33,33 @@ export default (sequelize, DataTypes) => {
             msg: 'Not a valid email address.',
           },
         },
+        allowNull: false,
       },
       password: {
         type: DataTypes.STRING,
+        allowNull: false,
+      },
+      role: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
+        allowNull: false,
       },
       updatedAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
+        allowNull: false,
       },
     },
-    {
-      instanceMethods: {
-        generateHash(password) {
-          return bcrypt.hashSync(password, salt);
-        },
-        validPassword(password) {
-          return bcrypt.compare(password, this.password);
-        },
-      },
-    }
+    {}
   );
+
+  User.generateHash = (password) => {
+    return bcrypt.hashSync(password, salt);
+  };
 
   User.associate = () => {
     // associations can be defined here

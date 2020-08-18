@@ -31,8 +31,18 @@ module.exports = {
       email: {
         allowNull: false,
         type: Sequelize.STRING,
+        unique: true,
+        validate: {
+          isEmail: {
+            msg: 'Not a valid email address.',
+          },
+        },
       },
       password: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      role: {
         allowNull: false,
         type: Sequelize.STRING,
       },
