@@ -2,25 +2,28 @@ require('dotenv').config();
 
 // Importing data models
 import db from '../../../../models';
-import { v4 as uuidv4 } from 'uuid';
-import { jwt } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import { UserSafeError } from '../../../../errors';
+import { modelByField } from '../../../../dataloaders';
 
 const User = db.users;
 
 const loginUser = async (root, { input }) => {
-  const theUser = await User.findAll({
-    where: { email: input.email },
-  });
+  const userByEmail = modelByField(User, 'email');
+  let theUser = await userByEmail.load(input.email);
 
   if (!theUser) throw new UserSafeError('Unable to Login. Email not found.');
 
+  // Set user to json object
+  theUser = theUser.toJSON();
+
   const pwdMatch = bcrypt.compareSync(input.password, theUser.password);
 
-  if (!theUser)
+  if (!pwdMatch)
     throw new UserSafeError('Unable to Login. Password is incorrect.');
 
-  return { ...theUser, token: jwt.sign(theUser, process.env.JWT_SECRET) };
+  return { token: jwt.sign(theUser, process.env.JWT_SECRET) };
 };
 
 export default loginUser;

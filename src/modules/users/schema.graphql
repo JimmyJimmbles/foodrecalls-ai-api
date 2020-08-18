@@ -39,22 +39,17 @@ input UserInput {
   role: NonemptyString!
 }
 
-type AuthPayLoad {
-  token: NonemptyString!
-}
-
 input UserLoginInput {
   email: NonemptyString!
   password: NonemptyString!
 }
 
-type UserAuthResuslts {
-  user: User!
-  token: AuthPayLoad!
+type UserAuthToken {
+  token: NonemptyString!
 }
 
 type Mutation {
-  createUser(input: UserInput!): UserAuthResuslts!
-  loginUser(input: UserLoginInput!): UserAuthResuslts!
-  updateUser(uuid: Uuid!, input: UserInput!): UserAuthResuslts!
+  createUser(input: UserInput!): User!
+  loginUser(input: UserLoginInput!): UserAuthToken!
+  updateUser(uuid: Uuid!, input: UserInput!): User!
 }

@@ -12,7 +12,9 @@ const updateUser = async (root, { uuid, input }) => {
     password,
   };
 
-  return await User.update(updatedUserData, { where: { uuid: uuid } })
+  return await User.update(updatedUserData, {
+    where: { uuid: uuid },
+  })
     .then((res) => {
       if (res) {
         return updatedUserData;
