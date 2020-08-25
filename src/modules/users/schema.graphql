@@ -1,0 +1,55 @@
+# Directives
+directive @auth(requires: Role = admin) on OBJECT | FIELD_DEFINITION
+
+type Query {
+  authenticatedUser: User
+
+  getAllUsers(
+    limit: Count!
+    offset: Count!
+    sortBy: UserSortBy!
+    sortDirection: String!
+  ): UserPaginatedResuslts!
+
+  getUser(id: ID!): User!
+}
+
+enum UserSortBy {
+  id
+  firstName
+  lastName
+}
+
+enum Role {
+  admin
+  user
+}
+
+type UserPaginatedResuslts {
+  count: Count!
+  records: [User!]!
+}
+
+type User @auth(requires: user) {
+  uuid: Uuid!
+  firstName: NonemptyString!
+  lastName: NonemptyString!
+  email: NonemptyString!
+  password: NonemptyString!
+  role: NonemptyString!
+  createdAt: NonemptyString!
+  updatedAt: NonemptyString!
+}
+
+input UserInput {
+  firstName: NonemptyString!
+  lastName: NonemptyString!
+  email: NonemptyString!
+  password: NonemptyString!
+  role: NonemptyString!
+}
+
+type Mutation @auth(requires: admin) {
+  createUser(input: UserInput!): User!
+  updateUser(uuid: Uuid!, input: UserInput!): User!
+}

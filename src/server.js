@@ -1,13 +1,24 @@
+require('dotenv').config();
+
 // Vendors
 import '@babel/polyfill';
-import 'graphql-import-node';
 import blocked from 'blocked';
 import express from 'express';
+import 'graphql-import-node';
 
 // Components
-import { cors, healthCheck, requestLogger, version } from './express';
+import { apolloServer } from './apollo';
+import {
+  expressCors,
+  healthCheck,
+  requestLogger,
+  version,
+  missingRoute,
+  error,
+} from './express';
 import logger from './logger';
 import RequestContext from './RequestContext';
+import db from './models';
 
 // Creates the API server
 const server = async () => {
@@ -18,7 +29,7 @@ const server = async () => {
   const app = express();
 
   // Get heath check to make sure server is online
-  app.get('/api/_health', healthCheck);
+  app.get('/_health', healthCheck);
 
   // Set up the request context
   app.use(RequestContext.setup);
@@ -27,14 +38,25 @@ const server = async () => {
   app.use(requestLogger);
 
   // Get the current API version
-  app.get('/api/_version', version);
+  app.get('/_version', version);
 
   // Set up the CORS of the API
-  app.use(cors);
+  app.use(expressCors);
 
-  const port = process.env.API_PORT || 5000;
+  // Set up Apollo server
+  const apollo = apolloServer();
+  apollo.applyMiddleware({ app, cors: false });
+
+  db.sequelize.authenticate();
+
+  // Set up Missing Routes logs
+  app.use(missingRoute);
+
+  // Set up request errors logs
+  app.use(error);
 
   // Begin listening to server requests
+  const port = process.env.API_PORT || 5000;
   app.listen(port, () =>
     logger.info(`server started on http://localhost:${port}`)
   );

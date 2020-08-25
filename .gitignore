@@ -1,2 +1,11 @@
 /dist
 /node_modules
+
+# Env
+.env
+
+# Editor
+/.vscode
+
+# System
+.DS_Store

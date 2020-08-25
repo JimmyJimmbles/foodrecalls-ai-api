@@ -1,4 +1,5 @@
 // Vendors
+require('dotenv').config();
 import { createNamespace, getNamespace } from 'cls-hooked';
 import os from 'os';
 import { v4 as uuid } from 'uuid';

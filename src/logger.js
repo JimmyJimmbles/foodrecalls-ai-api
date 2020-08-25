@@ -7,10 +7,32 @@ import { createLogger, format, transports } from 'winston';
 // Components
 import RequestContext from './RequestContext';
 
+const useColor = process.env.LOG_COLORS === 'true';
+if (useColor) {
+  safe.enable();
+}
+
+const formats = [
+  format.timestamp(),
+  format.splat(),
+  format.printf(({ timestamp, level, message, ...meta }) => {
+    let stringifiedMeta = JSON.stringify(meta);
+    if (useColor) {
+      stringifiedMeta = safe.gray(stringifiedMeta);
+    }
+
+    return `${timestamp} [${level}] ${message} ${stringifiedMeta}`;
+  }),
+];
+
+if (useColor) {
+  formats.unshift(format.colorize());
+}
+
 // Create logger to keep track of requests
 const logger = createLogger({
   level: process.env.LOG_LEVEL || 'info',
-  format: format,
+  format: format.combine(...formats),
   transports: [new transports.Console()],
 });
 
@@ -21,14 +43,18 @@ const log = (level, message, ...meta) => {
   // Current Context of the Request
   const context = RequestContext.current();
 
-  logger.log(level, combinedMessage, {
-    ...objectMeta,
-    ...pick(context, ['basRequestId', 'parentRequestId', 'requestId']),
-  });
+  logger.log(
+    level,
+    combinedMessage,
+    Object.assign({}, ...objectMeta, {
+      ...pick(context, ['basRequestId', 'parentRequestId', 'requestId']),
+    })
+  );
 
   return logger;
 };
 
+// Export each log type
 export default {
   silly: (...args) => log('silly', ...args),
   debug: (...args) => log('debug', ...args),
