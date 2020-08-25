@@ -1,10 +1,12 @@
 // Vendors
+import { AuthenticationError } from 'apollo-server-express';
 import { GraphQLModule } from '@graphql-modules/core';
 
 import providers from './providers';
 import resolvers from './resolvers';
 import * as typeDefs from './schema.graphql';
 import Types from '../types';
+import { validateTokens } from '../../auth';
 
 // Instantiating the Users GraphQLModule to set up all the User queries
 const Users = new GraphQLModule({
@@ -13,8 +15,12 @@ const Users = new GraphQLModule({
   resolvers,
   typeDefs,
   context: ({ req }) => {
-    // Get the user token from the headers.
-    const token = req.headers.authorization || '';
+    const token = req.headers.authorization || false;
+    const user = validateTokens(token);
+
+    if (!user) throw new AuthenticationError('User must be logged in!');
+
+    return { user };
   },
 });
 

@@ -1,0 +1,12 @@
+type Token {
+  token: NonemptyString!
+}
+
+input UserLoginInput {
+  email: NonemptyString!
+  password: NonemptyString!
+}
+
+type Mutation {
+  loginUser(input: UserLoginInput!): Token!
+}

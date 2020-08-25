@@ -1,21 +1,23 @@
+import { secure } from '../../../auth/authorization';
+
 // Queries
+import authenticatedUser from './queries/authenticatedUser';
 import getUser from './queries/getUser';
 import getAllUsers from './queries/getAllUsers';
 
 // Mutations
-import loginUser from './mutations/loginUser';
 import createUser from './mutations/createUser';
 import updateUser from './mutations/updateUser';
 
 const resolvers = {
   Query: {
-    getUser,
-    getAllUsers,
+    authenticatedUser,
+    getUser: secure(getUser, true),
+    getAllUsers: secure(getAllUsers),
   },
   Mutation: {
-    loginUser,
-    createUser,
-    updateUser,
+    createUser: secure(createUser, true),
+    updateUser: secure(updateUser),
   },
 };
 

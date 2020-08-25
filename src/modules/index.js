@@ -1,11 +1,12 @@
 import { GraphQLModule } from '@graphql-modules/core';
 
 // Modules
+import Authentication from './authentication';
 import Users from './users';
 
-// Set up all the GraphQL queries in one module for easy management.
+// App Module to import all Modules for the App
 const AppModule = new GraphQLModule({
-  imports: [Users],
+  imports: [Authentication, Users],
 });
 
 export default AppModule;

@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 // Vendors
 import '@babel/polyfill';
 import blocked from 'blocked';
@@ -7,7 +9,7 @@ import 'graphql-import-node';
 // Components
 import { apolloServer } from './apollo';
 import {
-  cors,
+  expressCors,
   healthCheck,
   requestLogger,
   version,
@@ -16,6 +18,7 @@ import {
 } from './express';
 import logger from './logger';
 import RequestContext from './RequestContext';
+import db from './models';
 
 // Creates the API server
 const server = async () => {
@@ -38,11 +41,13 @@ const server = async () => {
   app.get('/_version', version);
 
   // Set up the CORS of the API
-  app.use(cors);
+  app.use(expressCors);
 
   // Set up Apollo server
   const apollo = apolloServer();
   apollo.applyMiddleware({ app, cors: false });
+
+  db.sequelize.authenticate();
 
   // Set up Missing Routes logs
   app.use(missingRoute);

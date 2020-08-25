@@ -1,4 +1,9 @@
+# Directives
+directive @auth(requires: Role = admin) on OBJECT | FIELD_DEFINITION
+
 type Query {
+  authenticatedUser: User
+
   getAllUsers(
     limit: Count!
     offset: Count!
@@ -15,13 +20,18 @@ enum UserSortBy {
   lastName
 }
 
+enum Role {
+  admin
+  user
+}
+
 type UserPaginatedResuslts {
   count: Count!
   records: [User!]!
 }
 
-type User {
-  uuid: ID!
+type User @auth(requires: user) {
+  uuid: Uuid!
   firstName: NonemptyString!
   lastName: NonemptyString!
   email: NonemptyString!
@@ -39,17 +49,7 @@ input UserInput {
   role: NonemptyString!
 }
 
-input UserLoginInput {
-  email: NonemptyString!
-  password: NonemptyString!
-}
-
-type UserAuthToken {
-  token: NonemptyString!
-}
-
-type Mutation {
+type Mutation @auth(requires: admin) {
   createUser(input: UserInput!): User!
-  loginUser(input: UserLoginInput!): UserAuthToken!
   updateUser(uuid: Uuid!, input: UserInput!): User!
 }

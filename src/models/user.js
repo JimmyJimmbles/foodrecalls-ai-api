@@ -57,6 +57,7 @@ export default (sequelize, DataTypes) => {
     {}
   );
 
+  // Model Methods
   User.generateHash = (password) => {
     return bcrypt.hashSync(password, salt);
   };

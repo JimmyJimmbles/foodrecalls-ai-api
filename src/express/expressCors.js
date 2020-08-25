@@ -1,12 +1,14 @@
 // Vendors
-import expressCors from 'cors';
+import cors from 'cors';
 
-const cors = expressCors({
+const expressCors = cors({
   credentials: true,
   methods: ['GET', 'HEAD', 'PATCH', 'POST'],
   origin: process.env.API_CORS_ALLOWED_ORIGINS
     ? process.env.API_CORS_ALLOWED_ORIGINS.split(',')
     : false,
+  allowedHeaders: ['Authorization'],
+  exposedHeaders: ['Authorization'],
 });
 
-export default cors;
+export default expressCors;

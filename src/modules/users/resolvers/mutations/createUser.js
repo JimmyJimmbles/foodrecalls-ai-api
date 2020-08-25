@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 // Importing data models
 import db from '../../../../models';
 import { v4 as uuidv4 } from 'uuid';
