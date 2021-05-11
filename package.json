@@ -59,7 +59,7 @@
     "cls-hooked": "^4.2.2",
     "convert-hrtime": "^3.0.0",
     "graphql-tools": "^6.0.18",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "nodemon": "^2.0.4",
     "sequelize-cli": "^5.5.1"
   }
